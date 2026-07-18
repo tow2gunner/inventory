@@ -1,0 +1,42 @@
+services:
+  inventory:
+    build: "${APP_DIR:-./app}"
+    container_name: "${CONTAINER_NAME:-inventory}"
+
+    ports:
+      - "${INVENTORY_PORT:-8088}:8000"
+
+    environment:
+      FORTIGATE_URL: "${FORTIGATE_URL}"
+      TOKEN_FILE: "/run/secrets/fortitoken.key"
+
+      UNIFI_URL: "${UNIFI_URL}"
+      UNIFI_SITE_ID: "${UNIFI_SITE_ID}"
+      UNIFI_API_KEY_FILE: "/run/secrets/unifi-api.key"
+
+      DB_PATH: "/data/${DB_FILENAME:-inventory.db}"
+      CHANGE_FILE: "/data/${CHANGE_FILENAME:-fortigate-changes.cli}"
+
+      DHCP_SERVER_ID: "${DHCP_SERVER_ID:-3}"
+      VERIFY_TLS: "${VERIFY_TLS:-false}"
+
+      LIN_USERS_FILE: "/run/secrets/lin-users.key"
+      LIN_PASSWORDS_FILE: "/run/secrets/lin-passwords.key"
+      WIN_USERS_FILE: "/run/secrets/win-users.key"
+      WIN_PASSWORDS_FILE: "/run/secrets/win-passwords.key"
+
+      SSH_PORT: "${SSH_PORT:-22}"
+      SSH_TIMEOUT: "${SSH_TIMEOUT:-6}"
+      WINRM_HTTP_PORT: "${WINRM_HTTP_PORT:-5985}"
+      WINRM_HTTPS_PORT: "${WINRM_HTTPS_PORT:-5986}"
+      WINRM_TIMEOUT: "${WINRM_TIMEOUT:-20}"
+      WINRM_VERIFY_TLS: "${WINRM_VERIFY_TLS:-false}"
+
+    volumes:
+      - "${DATA_DIR:-./data}:/data"
+      - "${SECRETS_DIR:-./secrets}/${FORTI_TOKEN_FILE:-fortitoken.key}:/run/secrets/fortitoken.key:ro"
+      - "${SECRETS_DIR:-./secrets}/${UNIFI_API_KEY_FILE:-unifi-api.key}:/run/secrets/unifi-api.key:ro"
+      - "${SECRETS_DIR:-./secrets}/${LIN_USERS_FILE:-lin-users.key}:/run/secrets/lin-users.key:ro"
+      - "${SECRETS_DIR:-./secrets}/${LIN_PASSWORDS_FILE:-lin-passwords.key}:/run/secrets/lin-passwords.key:ro"
+      - "${SECRETS_DIR:-./secrets}/${WIN_USERS_FILE:-win-users.key}:/run/secrets/win-users.key:ro"
+      - "${SECRETS_DIR:-./secrets}/${WIN_PASSWORDS_FILE:-win-passwords.key}:/run/secrets/win-passwords.key:ro"
