@@ -1,6 +1,7 @@
 # inventory
 Fortigate and Ubiquiti AND ssh for local inventory
 
+# WORK IN PROGRESS - 
 # Network Inventory and Systems Scanner
 
 A Docker-based inventory application that combines data from a FortiGate firewall, a UniFi controller, and SSH-accessible Linux systems.
